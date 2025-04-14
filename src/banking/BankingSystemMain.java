@@ -12,11 +12,13 @@ public class BankingSystemMain {
 		System.out.println("3.출  금");
 		System.out.println("4.계좌정보출력");
 		System.out.println("5.계좌정보삭제");
-		System.out.println("6.프로그램종료");
+		System.out.println("6.저장옵션");
+		System.out.println("7.프로그램종료");
 	}
 	
 	public static void main(String[] args) {
 		AccountManager acc = new AccountManager(50);
+		acc.readAccountInfo();
 		while(true) {
 			showMenu();
 			try {
@@ -39,8 +41,12 @@ public class BankingSystemMain {
 				case ICustomDefine.DELETE:
 					acc.deleteAccount();
 					break;
+				case ICustomDefine.AUTOSAVE:
+					acc.autoSave();
+					break;
 				case ICustomDefine.EXIT:
-					System.out.println("프로그램을 종료합니다.");
+					acc.saveAccountInfo();
+					System.out.println("***프로그램종료***");
 					System.exit(0);;
 				}
 			}
@@ -59,7 +65,7 @@ public class BankingSystemMain {
 			System.out.println("메뉴는 정수만 입력해주세요.");
 //			e.printStackTrace();
 		}
-		if(res < 1 || res > 5) {
+		if(res < 1 || res > 7) {
 			MenuSelectException ex = new MenuSelectException();
 			throw ex;
 		}

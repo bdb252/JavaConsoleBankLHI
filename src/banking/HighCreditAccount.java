@@ -13,7 +13,7 @@ public class HighCreditAccount extends Account{
 	@Override
 	public void showAccData() {
 		super.showAccData();
-		System.out.println("기본이자>"+interest);
+		System.out.println("기본이자>"+interest+"%");
 		System.out.println("신용등급>"+rank);
 	}
 }

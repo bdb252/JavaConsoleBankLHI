@@ -1,5 +1,12 @@
 package banking;
 
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -47,35 +54,29 @@ public class AccountManager {
 		int interest=BankingSystemMain.sc.nextInt();
 		BankingSystemMain.sc.nextLine();
 		
+		Account newAcc = null;
 		if(choice == 1) {
-			if(! accounts.add(new NormalAccount(accnum, accname, money, interest))) {
-				System.out.println("중복계좌발견됨.\n덮어쓸까요?(y or n)");
-				String dup=BankingSystemMain.sc.nextLine();
-				if(dup.equals("y")) {
-					//삭제
-					for(Account curracc : accounts) {
-						if(accnum.equals(curracc.accountNum)) {
-							accounts.remove(curracc);
-							break;
-						}
-					}
-					//덮어쓰기
-					NormalAccount nAcc = new NormalAccount(accnum, accname, money, interest);
-					accounts.add(nAcc);					
-					System.out.println("새로운 정보로 갱신되었습니다.");
-				}
-				else if(dup.equals("n")) {
-					System.out.println("덮어쓰기를 진행하지 않습니다.");
-					return;
-				}
-			}
+			newAcc = new NormalAccount(accnum, accname, money, interest);
 		}
 		else if(choice==2) {
 			System.out.print("신용등급(A,B,C등급):");
 			String rank=BankingSystemMain.sc.nextLine();
-			
-			HighCreditAccount hcAcc = new HighCreditAccount(accnum, accname, money, interest,rank);
-			accounts.add(hcAcc);
+			newAcc = new HighCreditAccount(accnum, accname, money, interest,rank);
+		}
+		if(! accounts.add(newAcc)) {
+			System.out.println("중복계좌발견됨.\n덮어쓸까요?(y or n)");
+			String dup=BankingSystemMain.sc.nextLine();
+			if(dup.equals("y")) {
+				//삭제
+				accounts.remove(newAcc);
+				//덮어쓰기
+				accounts.add(newAcc);					
+				System.out.println("새로운 정보로 갱신되었습니다.");
+			}
+			else if(dup.equals("n")) {
+				System.out.println("덮어쓰기를 진행하지 않습니다.");
+				return;
+			}
 		}
 		System.out.println("계좌개설이 완료되었습니다.\n");
 	}
@@ -188,5 +189,64 @@ public class AccountManager {
 			System.out.println("------------------------------");			
 		}
 		System.out.println("전체계좌정보 출력이 완료되었습니다.\n");
+	}
+	
+	public void saveAccountInfo() {
+		try {
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src/banking/AccountInfo.obj"));
+			for(Account ac : accounts) {
+				out.writeObject(ac);
+			}
+			System.out.println("AccountInfo.obj 파일로 저장되었습니다.");
+			out.close();
+		}
+		catch (FileNotFoundException e) {
+			System.out.println("AccountInfo.obj 파일없음");
+		}
+		catch (IOException e) {
+			System.out.println("예외발생");
+		}
+	}
+	
+	public void readAccountInfo() {
+		try {
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream("src/banking/AccountInfo.obj"));
+			System.out.println("AccountInfo.obj 복원완료");
+			while(true) {
+				try {
+					Account ac = (Account)in.readObject();
+					accounts.add(ac);
+				}
+				catch (EOFException e){
+					break;
+				}
+			}
+		}
+		catch (ClassNotFoundException e) {
+			System.out.println("클래스 없음");
+		}
+		catch (FileNotFoundException e) {
+			System.out.println("AccountInfo.obj 파일없음");
+		}
+		catch (IOException e) {
+			System.out.println("예외 발생");
+			e.printStackTrace();
+		}
+	}
+	
+	public void autoSave() {
+		System.out.println("***자동저장을 시작합니다***");
+		
+		System.out.println("저장옵션을 선택하세요.\n1.자동저장On, 2.자동저장Off");
+		System.out.print("선택:");
+		int choice = BankingSystemMain.sc.nextInt();
+		BankingSystemMain.sc.nextLine();
+		if(choice == 1) {
+			System.out.println("자동저장을 시작합니다.");
+		}
+		else if(choice == 2) {
+			System.out.println("자동저장을 종료합니다.");
+		}
+		
 	}
 }

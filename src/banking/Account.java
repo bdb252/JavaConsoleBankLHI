@@ -1,8 +1,9 @@
 package banking;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-abstract public class Account implements IAccount{
+abstract public class Account implements Serializable{
 	String accountNum;
 	String name;
 	int money;
@@ -12,7 +13,6 @@ abstract public class Account implements IAccount{
 		this.name = name;
 		this.money = money;
 	}	
-	@Override
 	public void showAccData() {
 		System.out.println("계좌번호>"+accountNum);
 		System.out.println("고객이름>"+name);
