@@ -53,17 +53,17 @@ public class AccountManager {
 			String rank=BankingSystemMain.sc.nextLine();
 			newAcc = new HighCreditAccount(accnum, accname, money, interest,rank);
 		}
-		if(! accounts.add(newAcc)) {
+		if(! accounts.add(newAcc)) { //계좌번호가 같은 중복된 객체 발견
 			System.out.println("중복계좌발견됨.\n덮어쓸까요?(y or n)");
 			String dup=BankingSystemMain.sc.nextLine();
-			if(dup.equals("y")) {
+			if(dup.equalsIgnoreCase("y")) {
 				//삭제
-				accounts.remove(newAcc);
+				accounts.remove(newAcc); //기존에 account안에 있던 객체 제거
 				//덮어쓰기
-				accounts.add(newAcc);					
+				accounts.add(newAcc);	//new로 새로 만든 객체 추가
 				System.out.println("새로운 정보로 갱신되었습니다.");
 			}
-			else if(dup.equals("n")) {
+			else if(dup.equalsIgnoreCase("n")) {
 				System.out.println("덮어쓰기를 진행하지 않습니다.");
 				return;
 			}
@@ -90,12 +90,12 @@ public class AccountManager {
 		while(itr.hasNext()) {
 			Account curracc = itr.next();
 			if(accnum.equals(curracc.getAccountNum())) {
-				curracc.setMoney(curracc.depositInterest(money));
+				curracc.setMoney(curracc.depositMoneyInterest(money));
 			}
 		}
-		
 		System.out.println("입금이 완료되었습니다.");
 	}
+	
 	public void withdrawMoney() { // 출    금
 		System.out.println("***출  금***");
 		System.out.println("계좌번호와 출금할 금액을 입력하시오.");
@@ -209,7 +209,7 @@ public class AccountManager {
 			System.out.println("AccountInfo.obj 파일없음");
 		}
 		catch (IOException e) {
-			System.out.println("예외 발생");
+			System.out.println("IO 예외 발생");
 			e.printStackTrace();
 		}
 	}

@@ -44,7 +44,7 @@ abstract public class Account implements Serializable{
 		System.out.println("잔고>"+money);
 	}
 	
-	public int depositInterest(int money) {
+	public int depositMoneyInterest(int money) {
 		return this.money + money;
 	}
 	

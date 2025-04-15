@@ -41,14 +41,14 @@ public class HighCreditAccount extends Account{
 		return 0;
 	}
 	@Override
-	public int depositInterest(int money) {
+	public int depositMoneyInterest(int money) {
 		double i = interest*0.01;
 		double plusInterest = rankInterest(this.rank);
-		return super.depositInterest(money)+(int)(super.getMoney()*i)+(int)(super.getMoney()*plusInterest);
+		return super.depositMoneyInterest(money)+(int)(super.getMoney()*i)+(int)(super.getMoney()*plusInterest);
 	}
 	@Override
 	public String makeTxt() {
-		return "[신용신뢰계좌]"+super.makeTxt()+", 기본이자="+getInterest()+", 신용등급="+getRank();
+		return "[신용신뢰계좌]"+super.makeTxt()+", 기본이자="+getInterest()+"%, 신용등급="+getRank();
 	}
 	@Override
 	public void showAccData() {

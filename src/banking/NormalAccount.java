@@ -20,12 +20,12 @@ public class NormalAccount extends Account{
 	
 	@Override
 	public String makeTxt() {
-		return "[보통계좌]"+super.makeTxt()+", 기본이자="+getInterest();
+		return "[보통계좌]"+super.makeTxt()+", 기본이자="+getInterest()+"%";
 	}
 	@Override
-	public int depositInterest(int money) {
+	public int depositMoneyInterest(int money) {
 		double i = interest*0.01;
-		return super.depositInterest(money)+(int)(super.getMoney()*i);
+		return super.depositMoneyInterest(money)+(int)(super.getMoney()*i);
 	}
 	@Override
 	public void showAccData() {
