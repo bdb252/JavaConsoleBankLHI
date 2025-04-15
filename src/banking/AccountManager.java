@@ -12,6 +12,7 @@ import java.util.Iterator;
 
 public class AccountManager {
 	private HashSet<Account> accounts;
+	AutoSaver autosave;
 	
 	public AccountManager(int size) {
 		accounts = new HashSet<Account>();
@@ -24,18 +25,7 @@ public class AccountManager {
 		System.out.println("2.신용신뢰계좌");
 		System.out.print("선택:");
 	}
-	public double rankInterest(String rank) {
-		if(rank.equals("A")) {
-			return 0.07;			
-		}
-		else if(rank.equals("B")) {
-			return 0.04;			
-		}
-		else if(rank.equals("C")) {
-			return 0.02;			
-		}
-		return 0;
-	}
+
 	public void makeAccount() {    // 계좌개설을 위한 함수
 		newAccountMenu();
 		int choice = BankingSystemMain.sc.nextInt();
@@ -99,19 +89,8 @@ public class AccountManager {
 		Iterator<Account> itr = accounts.iterator();
 		while(itr.hasNext()) {
 			Account curracc = itr.next();
-			if(accnum.equals(curracc.accountNum)) {
-				if(curracc instanceof NormalAccount) {
-					int currmoney = ((NormalAccount)curracc).money;
-					double interest = ((NormalAccount)curracc).interest * 0.01;
-					((NormalAccount)curracc).money= currmoney+(int)(currmoney*interest)+money;					
-				}
-				else if(curracc instanceof HighCreditAccount) {
-					int currmoney = ((HighCreditAccount)curracc).money;
-					double interest = ((HighCreditAccount)curracc).interest * 0.01;
-					double plusInterest = rankInterest(((HighCreditAccount)curracc).rank);
-					((HighCreditAccount)curracc).money= currmoney+(int)(currmoney*interest)+
-						(int)(currmoney*plusInterest)+money;
-				}
+			if(accnum.equals(curracc.getAccountNum())) {
+				curracc.setMoney(curracc.depositInterest(money));
 			}
 		}
 		
@@ -135,8 +114,8 @@ public class AccountManager {
 		Iterator<Account> itr = accounts.iterator();
 		while(itr.hasNext()) {
 			Account curracc = itr.next();
-			if(accnum.equals(curracc.accountNum)) {
-				if(curracc.money < money) {
+			if(accnum.equals(curracc.getAccountNum())) {
+				if(curracc.getMoney() < money) {
 					System.out.println("잔고가 부족합니다. 금액 전체를 출금할까요?");
 					System.out.println("YES : 금액전체 출금처리\nNO : 출금요청취소");
 					System.out.print("선택(YES 또는 NO로만 입력하세요.):");
@@ -144,7 +123,7 @@ public class AccountManager {
 					String choice = BankingSystemMain.sc.nextLine();
 					if(choice.equalsIgnoreCase("YES")) {
 						System.out.print("잔고가 모두 출금됩니다.");							
-						curracc.money = 0;
+						curracc.setMoney(0);
 					}
 					else if(choice.equalsIgnoreCase("NO")) {
 						System.out.println("출금 요청이 취소되었습니다.");
@@ -152,7 +131,8 @@ public class AccountManager {
 					}
 				}
 				else {
-					curracc.money -= money;						
+					int res=curracc.getMoney() - money;
+					curracc.setMoney(res);
 				}
 			}
 		}
@@ -166,7 +146,7 @@ public class AccountManager {
 		String accnum=BankingSystemMain.sc.nextLine();
 		boolean flag = false;
 		for(Account curracc : accounts) {
-			if(accnum.equals(curracc.accountNum)) {
+			if(accnum.equals(curracc.getAccountNum())) {
 				accounts.remove(curracc);
 				flag = true;
 				break;
@@ -236,15 +216,31 @@ public class AccountManager {
 	
 	public void autoSave() {
 		System.out.println("***자동저장을 시작합니다***");
-		
+		try {
+			System.out.printf("쓰레드=Thread[%s,5,main]",autosave.getName());			
+		}
+		catch (Exception e) {
+			System.out.println("쓰레드 없음 예외발생");
+		}
 		System.out.println("저장옵션을 선택하세요.\n1.자동저장On, 2.자동저장Off");
 		System.out.print("선택:");
 		int choice = BankingSystemMain.sc.nextInt();
 		BankingSystemMain.sc.nextLine();
 		if(choice == 1) {
-			System.out.println("자동저장을 시작합니다.");
+			if(autosave==null) {
+				System.out.println("자동저장을 시작합니다.");
+				autosave = new AutoSaver(accounts);	
+				autosave.setDaemon(true);
+			}
+			if(autosave.isAlive()) {
+				System.out.println("이미 자동저장이 실행중입니다.");				
+				return;
+			}
+			autosave.start();
 		}
 		else if(choice == 2) {
+			autosave.interrupt();
+			autosave=null;
 			System.out.println("자동저장을 종료합니다.");
 		}
 		

@@ -14,6 +14,7 @@ public class BankingSystemMain {
 		System.out.println("5.계좌정보삭제");
 		System.out.println("6.저장옵션");
 		System.out.println("7.프로그램종료");
+		System.out.println("---------------");
 	}
 	
 	public static void main(String[] args) {
