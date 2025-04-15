@@ -23,6 +23,7 @@ public class AccountManager {
 		System.out.println("-----계좌선택-----");
 		System.out.println("1.보통계좌");
 		System.out.println("2.신용신뢰계좌");
+		System.out.println("3.특판계좌");
 		System.out.print("선택:");
 	}
 
@@ -30,7 +31,7 @@ public class AccountManager {
 		newAccountMenu();
 		int choice = BankingSystemMain.sc.nextInt();
 		BankingSystemMain.sc.nextLine();
-		if(choice != 1 && choice != 2) {
+		if(choice != 1 && choice != 2 && choice != 3) {
 			System.out.println("메뉴화면으로 돌아갑니다.");
 			return;
 		}
@@ -52,6 +53,9 @@ public class AccountManager {
 			System.out.print("신용등급(A,B,C등급):");
 			String rank=BankingSystemMain.sc.nextLine();
 			newAcc = new HighCreditAccount(accnum, accname, money, interest,rank);
+		}
+		else if(choice == 3) {
+			newAcc = new SpecialAccount(accnum, accname, money, interest);
 		}
 		if(! accounts.add(newAcc)) { //계좌번호가 같은 중복된 객체 발견
 			System.out.println("중복계좌발견됨.\n덮어쓸까요?(y or n)");

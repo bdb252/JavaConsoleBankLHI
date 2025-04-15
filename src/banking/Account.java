@@ -48,8 +48,9 @@ abstract public class Account implements Serializable{
 		return this.money + money;
 	}
 	
-	public String makeTxt() {
-		String str = "계좌번호="+getAccountNum()+", 이름="+getName()+", 잔고="+getMoney();
+	@Override
+	public String toString() {
+		String str = "계좌번호="+this.accountNum+", 이름="+this.name+", 잔고="+this.money;
 		return str;
 	}
 	@Override

@@ -17,10 +17,9 @@ public class NormalAccount extends Account{
 	public void setInterest(int interest) {
 		this.interest = interest;
 	}
-	
 	@Override
-	public String makeTxt() {
-		return "[보통계좌]"+super.makeTxt()+", 기본이자="+getInterest()+"%";
+	public String toString() {
+		return "[보통계좌]"+super.toString()+", 기본이자="+this.interest+"%";		
 	}
 	@Override
 	public int depositMoneyInterest(int money) {

@@ -47,8 +47,8 @@ public class HighCreditAccount extends Account{
 		return super.depositMoneyInterest(money)+(int)(super.getMoney()*i)+(int)(super.getMoney()*plusInterest);
 	}
 	@Override
-	public String makeTxt() {
-		return "[신용신뢰계좌]"+super.makeTxt()+", 기본이자="+getInterest()+"%, 신용등급="+getRank();
+	public String toString() {
+		return "[신용신뢰계좌]"+super.toString()+", 기본이자="+this.interest+"%, 신용등급="+this.rank;
 	}
 	@Override
 	public void showAccData() {
