@@ -6,23 +6,14 @@ import java.util.HashSet;
 
 public class AutoSaver extends Thread{
 	HashSet<Account> accounts;
-	private boolean flag = true;
 
 	public AutoSaver(HashSet<Account> accounts) {
 		this.accounts = accounts;
 	}
-	
-	public boolean isFlag() {
-		return flag;
-	}
-
-	public void setFlag(boolean flag) {
-		this.flag = flag;
-	}
 
 	@Override
 	public void run() {
-		while(flag) {
+		while(true) {
 			try (BufferedWriter out = new BufferedWriter(new FileWriter("src/banking/AutoSaveAccount.txt"));){			
 				for(Account acc : accounts) {
 					out.write(acc.makeTxt());
