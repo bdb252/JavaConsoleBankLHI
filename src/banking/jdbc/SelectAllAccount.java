@@ -13,7 +13,7 @@ public class SelectAllAccount extends BankingConnection{
 	public void dbExecute() {
 		try {
 			stmt=con.createStatement();
-			sql="select acc_idx, account_num, name, money, interest from banking";
+			sql="select acc_idx, account_num, name, money, interest from banking order by acc_idx";
 			rs=stmt.executeQuery(sql);
 			while(rs.next()) {
 				String acc_idx=rs.getString(1);
