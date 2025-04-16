@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashSet;
+import java.util.InputMismatchException;
 import java.util.Iterator;
 
 public class Account2Manager {
@@ -80,24 +81,29 @@ public class Account2Manager {
 		System.out.println("계좌번호와 입금할 금액을 입력하시오.");
 		System.out.print("계좌번호:");
 		String accnum=BankingSystemMain.sc.nextLine();
-		System.out.print("입금액:");
-		int money=BankingSystemMain.sc.nextInt();
-		if(money < 0) {
-			System.out.println("음수는 입금불가");
-			return;
-		}
-		if(money % 500 != 0) {
-			System.out.println("500원 단위로 입금 가능함");
-			return;
-		}
-		Iterator<Account2> itr = Account2s.iterator();
-		while(itr.hasNext()) {
-			Account2 curracc = itr.next();
-			if(accnum.equals(curracc.getAccount2Num())) {
-				curracc.setMoney(curracc.depositMoneyInterest(money));
+		try {
+			System.out.print("입금액:");
+			int money=BankingSystemMain.sc.nextInt();
+			if(money < 0) {
+				System.out.println("음수는 입금불가");
+				return;
 			}
+			if(money % 500 != 0) {
+				System.out.println("500원 단위로 입금 가능함");
+				return;
+			}
+			Iterator<Account2> itr = Account2s.iterator();
+			while(itr.hasNext()) {
+				Account2 curracc = itr.next();
+				if(accnum.equals(curracc.getAccount2Num())) {
+					curracc.setMoney(curracc.depositMoneyInterest(money));
+				}
+			}
+			System.out.println("입금이 완료되었습니다.");			
 		}
-		System.out.println("입금이 완료되었습니다.");
+		catch (InputMismatchException e) {
+			System.out.println("입금 금액은 정수만 가능합니다.");
+		}
 	}
 	
 	public void withdrawMoney() { // 출    금
