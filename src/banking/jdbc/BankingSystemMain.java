@@ -27,10 +27,10 @@ public class BankingSystemMain {
 				new MakeAccount().dbExecute();
 				break;
 			case ICustomDefine.DEPOSIT:
-//				new DepositAccount().dbExecute();
+				new DepositAccount().dbExecute();
 				break;
 			case ICustomDefine.WITHDRAW:
-//				new WithdrawAccount().dbExecute();
+				new WithdrawAccount().dbExecute();
 				break;
 			case ICustomDefine.SELECTALL:
 				new SelectAllAccount().dbExecute();

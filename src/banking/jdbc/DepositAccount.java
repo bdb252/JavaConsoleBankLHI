@@ -12,6 +12,31 @@ public class DepositAccount extends BankingConnection{
 	String sql;
 	int res;
 	
+	public int depMoney(String str) {
+		int acc_money=0;
+		int acc_interset=0;
+		try {
+			String sql_mi = "select money, interest from banking where account_num=?";
+			psmt_mi=con.prepareStatement(sql_mi);
+			psmt_mi.setString(1, str);
+			rs=psmt_mi.executeQuery();
+			
+			while(rs.next()) {
+				acc_money=rs.getInt("money");
+				acc_interset=rs.getInt("interest");
+			}
+		}
+		catch (SQLException e) {
+			System.out.println("쿼리 실행 중 예외발생");
+			e.printStackTrace();
+		}		
+		System.out.print("입금금액:");
+		int depositmoney = BankingConnection.scan.nextInt();
+		BankingConnection.scan.nextLine();
+		double i = 0.01 * acc_interset;
+		return acc_money + (int)(acc_money * i) + depositmoney; 
+	}
+	
 	@Override
 	public void dbExecute() {
 		try {
@@ -19,25 +44,14 @@ public class DepositAccount extends BankingConnection{
 			psmt = con.prepareStatement(sql);
 			while(true) {
 				String str = inputValue("입금할 계좌번호");
-				psmt.setString(1, str);
-//				money=depMoney();
-				String sql_mi = "select money, interest from banking where account_num=?";
-				psmt_mi=con.prepareStatement(sql_mi);
-				psmt_mi.setString(1, sql_mi);
-				rs=psmt_mi.executeQuery();
-				int acc_money=0;
-				int acc_interset=0;
-				while(rs.next()) {
-					acc_money=rs.getInt("money");
-					acc_interset=rs.getInt("interest");
-				}
-				System.out.print("입금금액:");
-				int money = BankingConnection.scan.nextInt();
-				BankingConnection.scan.nextLine();
-				double i = 0.01 * acc_interset;
-				money = money + (int)(money * i) + acc_money; 
+				psmt.setString(2, str);
 				
-				psmt.setLong(2, money);
+				int money=depMoney(str);
+				
+				psmt.setInt(1, money);	
+				res=psmt.executeUpdate();
+				System.out.println("입금이 완료되었습니다.");
+				break;
 			}
 		}
 		catch (SQLException e) {
