@@ -15,7 +15,7 @@ public class Account2Manager {
 	private HashSet<Account2> Account2s;
 	AutoSaver autosave;
 	
-	public Account2Manager(int size) {
+	public Account2Manager() {
 		Account2s = new HashSet<Account2>();
 	}
 	//두가지 계좌 옵션 중 선택하는 메뉴
@@ -183,7 +183,7 @@ public class Account2Manager {
 	
 	public void saveAccount2Info() {
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src/banking/Account2Info.obj"));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src/banking/threeby3/Account2Info.obj"));
 			for(Account2 ac : Account2s) {
 				out.writeObject(ac);
 			}
@@ -200,7 +200,7 @@ public class Account2Manager {
 	
 	public void readAccount2Info() {
 		try {
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream("src/banking/Account2Info.obj"));
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream("src/banking/threeby3/Account2Info.obj"));
 			System.out.println("Account2Info.obj 복원완료");
 			while(true) {
 				try {

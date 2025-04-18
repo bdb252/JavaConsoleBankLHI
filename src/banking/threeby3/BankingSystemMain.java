@@ -19,7 +19,7 @@ public class BankingSystemMain {
 	}
 	
 	public static void main(String[] args) {
-		Account2Manager acc = new Account2Manager(50);
+		Account2Manager acc = new Account2Manager();
 		acc.readAccount2Info();
 		while(true) {
 			showMenu();
