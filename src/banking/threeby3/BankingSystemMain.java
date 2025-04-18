@@ -70,7 +70,7 @@ public class BankingSystemMain {
 			System.out.println("메뉴는 정수만 입력해주세요.");
 //			e.printStackTrace();
 		}
-		if(res < 1 || res > 7) {
+		if(res < 1 || res > 8) {
 			MenuSelectException ex = new MenuSelectException();
 			throw ex;
 		}
