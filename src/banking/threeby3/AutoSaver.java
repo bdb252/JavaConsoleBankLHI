@@ -14,7 +14,7 @@ public class AutoSaver extends Thread{
 	@Override
 	public void run() {
 		while(true) {
-			try (BufferedWriter out = new BufferedWriter(new FileWriter("src/banking/AutoSaveAccount2.txt"));){			
+			try (BufferedWriter out = new BufferedWriter(new FileWriter("src/banking/threeby3/AutoSaveAccount2.txt"));){			
 				for(Account2 acc : Account2s) {
 					out.write(acc.toString());
 					out.newLine();
