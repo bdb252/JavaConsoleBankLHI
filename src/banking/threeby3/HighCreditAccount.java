@@ -30,13 +30,13 @@ public class HighCreditAccount extends Account2{
 
 	public double rankInterest(String rank) {
 		if(rank.equals("A")) {
-			return 0.07;			
+			return ICustomDefine.A_INT;			
 		}
 		else if(rank.equals("B")) {
-			return 0.04;			
+			return ICustomDefine.B_INT;			
 		}
 		else if(rank.equals("C")) {
-			return 0.02;			
+			return ICustomDefine.C_INT;
 		}
 		return 0;
 	}
