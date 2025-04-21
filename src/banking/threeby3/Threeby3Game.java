@@ -37,7 +37,7 @@ public class Threeby3Game {
 			}
 		}
 		//num 셔플
-		int shuffleNum = 3;
+		int shuffleNum = 100;
 		for(int i = 0; i<shuffleNum; i++) {
 			int dir = rand.nextInt(4);
 			switch(dir) {

@@ -21,4 +21,8 @@ public class SpecialAccount extends NormalAccount{
 			return basicmoney;			
 		}
 	}
+	@Override
+	public String toString() {
+		return "[특판계좌]"+super.toString();
+	}
 }
