@@ -12,10 +12,10 @@ public class SpecialAccount extends NormalAccount{
 	public int depositMoneyInterest(int money) {
 		double i = super.getInterest()*0.01;
 		cnt++;
-		System.out.println(cnt);
+		System.out.println("입금횟수:"+cnt);
 		int basicmoney = super.depositMoneyInterest(money);
 		if(cnt%2==0) {
-			return basicmoney+500;
+			return basicmoney+ICustomDefine.BONUS;
 		}
 		else {
 			return basicmoney;			
